@@ -1,0 +1,48 @@
+POST http://localhost:8080/crud/newPlayer
+Content-Type: application/json
+
+{
+    "email": "rielle_santiago@dlsu.edu.ph"
+}
+
+###
+
+GET http://localhost:8080/crud/updatePlayer
+Content-Type: application/json
+
+{
+    "email": "ram_santiago@dlsu.edu.ph"
+}
+
+###
+
+
+GET http://localhost:8080/crud/listall
+
+###
+
+GET http://localhost:8080/crud/searchPlayer
+Content-Type: application/json
+
+{
+    "email": "rielle_santiago@dlsu.edu.ph"
+}
+
+
+###
+
+DELETE http://localhost:8080/crud/deletePlayer
+Content-Type: application/json
+
+{
+    "email": "rielle_santiago@dlsu.edu.ph"
+}
+
+###
+
+PUT http://localhost:8080/crud/updatePlayer
+Content-Type: application/json
+
+{
+    "email": "rielle_santiago@dlsu.edu.ph"
+}
