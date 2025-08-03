@@ -8,6 +8,7 @@ function Login(){
     const [loading, setLoading] = useState(false);
 
     const login = () => {
+        console.log(API_BASE_URL);
         setLoading(true);
         window.location.href = `${API_BASE_URL}/auth/google`;
     };
