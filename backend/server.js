@@ -12,6 +12,23 @@ const app = express();
 app.set('trust proxy', 1);
 
 app.use(express.json());
+//MongoDB Connection with retry (just in case it fails)
+const connectWithRetry = (retries = 5, delay = 10000) => {
+  mongoose.connect(process.env.MONGODB_URI, {
+    //dbName: 'PlayPal',
+    dbName: 'test' //for sample data
+  }).then(() => {
+    console.log('DB Connection Established');
+  }).catch((error) => {
+    console.log(`DB Connection Failed (${retries} retries left):`, error);
+    if (retries > 0) {
+      setTimeout(() => connectWithRetry(retries - 1, delay), delay);
+    } else {
+      console.log('All retries fin. Could not connect to MongoDB.');
+    }
+  });
+};
+connectWithRetry();
 app.use(cp());
 app.use(cors({
   origin: process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://playpal-frontend.vercel.app',
@@ -82,10 +99,9 @@ app.get('/auth/success', (req, res) => {
 
 app.get("/auth/me", (req, res) => {
     const currUser = req.user;
-    console.log("Server.js Hit /auth/me");
-    console.log("Server.js req.user:", req.user);
-    console.log("Server.js req.session:", req.session);  
-    console.log("Server.js req.session.passport.user:", req.session.passport);   
+    console.log("🔍 Session ID:", req.sessionID);
+    console.log("🔍 req.session.passport:", req.session?.passport);
+    console.log("🔍 req.user:", req.user);
     if (!currUser) {
         return res.status(200).json({ user: null }); //return null for now
     }
@@ -123,25 +139,6 @@ function isAuthenticated(req, res, next) {
   }
   res.status(401).json({ message: 'Unauthorized' });
 }
-
-//MongoDB Connection with retry (just in case it fails)
-const connectWithRetry = (retries = 5, delay = 10000) => {
-  mongoose.connect(process.env.MONGODB_URI, {
-    //dbName: 'PlayPal',
-    dbName: 'test' //for sample data
-  }).then(() => {
-    console.log('DB Connection Established');
-  }).catch((error) => {
-    console.log(`DB Connection Failed (${retries} retries left):`, error);
-    if (retries > 0) {
-      setTimeout(() => connectWithRetry(retries - 1, delay), delay);
-    } else {
-      console.log('All retries fin. Could not connect to MongoDB.');
-    }
-  });
-};
-connectWithRetry();
-
 
   //PORT 8080 by default for now
 const port = process.env.PORT || 8080;
