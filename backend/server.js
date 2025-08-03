@@ -17,30 +17,7 @@ app.use(cors({
   origin: process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://playpal-frontend.vercel.app',
   credentials: true
 }));
-const startServer = async () => {
-  await mongoose.connect(process.env.MONGODB_URI, { dbName: 'test' });
-  console.log("DB Connection Established");
 
-  app.use(session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    store: MongoStore.create({
-      mongoUrl: process.env.MONGODB_URI,
-      dbName: 'test',
-      collectionName: 'sessions',
-      autoRemove: 'interval',
-      autoRemoveInterval: 1440
-    }),
-    cookie: {
-      secure: process.env.NODE_ENV !== 'development',
-      sameSite: process.env.NODE_ENV === 'development' ? 'lax' : 'none',
-      maxAge: 24 * 60 * 60 * 1000
-    }
-  }));
-}
-startServer();
-/*
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
@@ -57,7 +34,7 @@ app.use(session({
     maxAge: 24 * 60 *60 * 1000 
   }
 }));
-*/
+
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/crud', router);
@@ -150,7 +127,7 @@ function isAuthenticated(req, res, next) {
   }
   res.status(401).json({ message: 'Unauthorized' });
 }
-/*
+
 //MongoDB Connection with retry (just in case it fails)
 const connectWithRetry = (retries = 5, delay = 10000) => {
   mongoose.connect(process.env.MONGODB_URI, {
@@ -168,7 +145,7 @@ const connectWithRetry = (retries = 5, delay = 10000) => {
   });
 };
 connectWithRetry();
-*/
+
 
   //PORT 8080 by default for now
 const port = process.env.PORT || 8080;
