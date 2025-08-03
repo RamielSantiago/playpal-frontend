@@ -55,9 +55,9 @@ app.get('/auth/success', (req, res) => {
 
 app.get("/auth/me", (req, res) => {
     const currUser = req.user;
-    console.log("Hit /auth/me");
-    console.log("req.user:", req.user);
-    console.log("req.session:", req.session);   
+    console.log("Server.js Hit /auth/me");
+    console.log("Server.js req.user:", req.user);
+    console.log("Server.js req.session:", req.session);   
     if (!currUser) {
         return res.status(200).json({ user: null }); //return null for now
     }

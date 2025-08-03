@@ -33,7 +33,7 @@ passport.use(
                     familyName: familyName, 
                     pfp: pfp });
             }
-            console.log(user);
+            console.log("Passport user", user);
             done(null, user);
         } catch (error) {
             done(error);
@@ -42,12 +42,14 @@ passport.use(
 ));
 
 passport.serializeUser((user, done) => {
+    console.log("Serialize User", user)
     done(null, user._id);
 });
 
 passport.deserializeUser(async (id, done) => {
     try{
         const user = await player.findById(id);
+        console.log("Deserialize User", user)
         done(null, user);
     }catch (err) {
         done(err);

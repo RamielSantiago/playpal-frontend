@@ -15,7 +15,7 @@ export const useUser = () => {
         const res = await axios.get(`${API_BASE_URL}/auth/me`, {
           withCredentials: true
         });
-        console.log(res.data);
+        console.log("useUser.js", res.data);
         console.log('User info:', res.data.user);        
         setUser(res.data.user);
         setError(null);

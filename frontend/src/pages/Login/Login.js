@@ -22,7 +22,7 @@ function Login(){
                 if (res.ok) {
                     const data = await res.json();
                     const isDLSUEmail = data.isDLSUEmail;
-                    console.log(data.user);
+                    console.log("Login.js", data.user);
                     //moved the creation of user data to passport.js
                     if (data.user && isDLSUEmail) {
                         setIsDLSUEmail(true);
