@@ -7,7 +7,9 @@ const mongoose = require('mongoose');
 const router = require('./db/crudRoutes');
 const MongoStore = require('connect-mongo');
 const app = express();
-//
+
+app.set('trust proxy', 1);
+
 app.use(express.json());
 app.use(cors({
   origin: process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://playpal-frontend.vercel.app',
@@ -30,11 +32,10 @@ app.use(session({
     maxAge: 24 * 60 *60 * 1000 
   }
 }));
+
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/crud', router);
-
-app.set('trust proxy', 1);
 
 app.get('/', (req, res) => {
   res.json({ message: 'PlayPal API is running' });
