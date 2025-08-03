@@ -33,6 +33,7 @@ passport.use(
                     familyName: familyName, 
                     pfp: pfp });
             }
+            console.log(user);
             done(null, user);
         } catch (error) {
             done(error);

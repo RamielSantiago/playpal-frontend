@@ -55,6 +55,9 @@ app.get('/auth/success', (req, res) => {
 
 app.get("/auth/me", (req, res) => {
     const currUser = req.user;
+    console.log("Hit /auth/me");
+    console.log("req.user:", req.user);
+    console.log("req.session:", req.session);   
     if (!currUser) {
         return res.status(200).json({ user: null }); //return null for now
     }
@@ -67,12 +70,6 @@ app.get("/auth/me", (req, res) => {
         });
     }
 
-    //set fullName if available
-    let userWithFullName = { ...req.user };
-    if (req.session && req.session.user && req.session.user.fullName) {
-        userWithFullName.fullName = req.session.user.fullName;
-    }
-
     res.json({ 
         user: {
             email: currUser.email,
@@ -81,7 +78,7 @@ app.get("/auth/me", (req, res) => {
             familyName: currUser.familyName,
             pfp: currUser.photos
         },
-        isDLSUEmail: isDLSUEmail
+        isDLSUEmail: true
     });
 });
 app.get('/profile', isAuthenticated, (req, res) => {
