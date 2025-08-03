@@ -12,7 +12,6 @@ const app = express();
 app.set('trust proxy', 1);
 
 app.use(express.json());
-connectWithRetry();
 app.use(cp());
 app.use(cors({
   origin: process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://playpal-frontend.vercel.app',
@@ -141,6 +140,8 @@ const connectWithRetry = (retries = 5, delay = 10000) => {
     }
   });
 };
+connectWithRetry();
+
 
   //PORT 8080 by default for now
 const port = process.env.PORT || 8080;
