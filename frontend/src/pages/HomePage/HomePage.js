@@ -71,9 +71,9 @@ function HomePage() {
       sport: '',
       date: Date.now(),
       place: '',
-      organizerEmail: user?.emails?.[0]?.value || '',
-      memberEmails: [user?.emails?.[0]?.value || ''],
-      organizerName: user?.fullName || (user?.name?.givenName && user?.name?.familyName) ? `${user.name.givenName} ${user.name.familyName}` : 'Unknown'
+      organizerEmail: user?.email || '',
+      memberEmails: [user?.email || ''],
+      organizerName: user?.fullName || (user?.givenName && user?.familyName) ? `${user.givenName} ${user.familyName}` : 'Unknown'
     });
   };
 
