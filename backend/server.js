@@ -38,12 +38,6 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/crud', router);
-app.use((req, res, next) => {
-  console.log("Middleware Check — Session:", req.session);
-  console.log("Middleware Check — req.user:", req.user);
-  console.log("Middleware Check — req.session.passport:", req.session?.passport);
-  next();
-});
 
 app.get('/', (req, res) => {
   res.json({ message: 'PlayPal API is running' });
@@ -59,12 +53,19 @@ app.get('/auth/google/callback', (req, res, next) => {
     if (!user) return res.redirect('https://playpal-frontend.vercel.app');
 
     req.logIn(user, (err) => {
+        req.session.user = {
+          email: user.email,
+          fullName: user.fullName,
+          givenName: user.givenName,
+          familyName: user.familyName,
+          pfp: user.pfp
+      };
       if (err) return next(err);
       req.session.save(() => {
         if (err) {
           console.log("Session save error:", err);
         } else {
-          console.log("Session saved successfully");
+          console.log("Session saved successfully", req.session.user);
         }
         return res.redirect('https://playpal-frontend.vercel.app/home');
       });
@@ -89,7 +90,7 @@ app.get("/auth/me", (req, res) => {
     console.log("Server.js Hit /auth/me");
     console.log("Server.js req.user:", req.user);
     console.log("Server.js req.session:", req.session);  
-    console.log("Server.js req.session.passport.user:", req.session.passport);   
+    console.log("Server.js req.session.passport.user:", req.session.user);   
     if (!currUser) {
         return res.status(200).json({ user: null }); //return null for now
     }
