@@ -22,10 +22,9 @@ function Login(){
                 if (res.ok) {
                     const data = await res.json();
                     const isDLSUEmail = data.isDLSUEmail;
-                    
+                    console.log(data.user);
                     //moved the creation of user data to passport.js
-
-                    if (isDLSUEmail) {
+                    if (data.user && isDLSUEmail) {
                         setIsDLSUEmail(true);
                         window.location.href = '/home';
                     } else {

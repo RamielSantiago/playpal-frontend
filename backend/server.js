@@ -54,35 +54,34 @@ app.get('/auth/success', (req, res) => {
 });
 
 app.get("/auth/me", (req, res) => {
-    const sessionUser = req.session?.user;
-    if (!sessionUser) {
+    const currUser = req.user;
+    if (!currUser) {
         return res.status(200).json({ user: null }); //return null for now
     }
-    //const email = req.user.emails && req.user.emails[0] ? req.user.emails[0].value : null;
-    /*const emailDomain = email.split('@')[1];
+    const isDLSUEmail = user.email.endsWith('@dlsu.edu.ph');
 
-    if (emailDomain !== 'dlsu.edu.ph') {
+    if (!isDLSUEmail) {
         return res.status(403).json({ 
             error: "Only DLSU emails are allowed",
             isDLSUEmail: false 
         });
-    }*/
+    }
 
-    /* set fullName if available
+    //set fullName if available
     let userWithFullName = { ...req.user };
     if (req.session && req.session.user && req.session.user.fullName) {
         userWithFullName.fullName = req.session.user.fullName;
-    }*/
+    }
 
     res.json({ 
         user: {
-            email: sessionUser.email,
-            fullName: sessionUser.fullName,
-            givenName: sessionUser.givenName,
-            familyName: sessionUser.familyName,
-            pfp: sessionUser.photos
+            email: currUser.email,
+            fullName: currUser.fullName,
+            givenName: currUser.givenName,
+            familyName: currUser.familyName,
+            pfp: currUser.photos
         },
-        isDLSUEmail: sessionUser.email.endsWith('@dlsu.edu.ph') ?? false 
+        isDLSUEmail: isDLSUEmail
     });
 });
 app.get('/profile', isAuthenticated, (req, res) => {

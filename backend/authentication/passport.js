@@ -22,21 +22,18 @@ passport.use(
             let user = await player.findOne({email: profile.emails[0].value})
             if (!user) {
                 // same logic as addPlayer with fullName
+                const givenName = profile.name?.givenName ?? '';
+                const familyName = profile.name?.familyName ?? '';
                 const fullName = `${profile.name.givenName} ${profile.name.familyName}`;
-                user = await player.create({ email, fullName });
+                const pfp = profile.photos?.[0]?.value ?? ''
+                user = await player.create({ 
+                    email: email, 
+                    fullName:fullName, 
+                    givenName: givenName, 
+                    familyName: familyName, 
+                    pfp: pfp });
             }
-            req.session.user = {
-               // ...profile,
-                _id: user._id,
-                email: user.email,
-                fullName: user.fullName,
-                givenName: profile.name?.givenName ?? '',
-                familyName: profile.name?.familyName ?? '',
-                photos: profile.photos?.[0]?.value ?? ''
-            };
-            console.log("req.user:", req.user);
-            console.log("req.session.user:", req.session.user);
-            done(null, profile);
+            done(null, user);
         } catch (error) {
             done(error);
         }
@@ -44,11 +41,16 @@ passport.use(
 ));
 
 passport.serializeUser((user, done) => {
-    done(null, user);
+    done(null, user._id);
 });
 
-passport.deserializeUser((user, done) => {
-    done(null, user);
+passport.deserializeUser(async (id, done) => {
+    try{
+        const user = await player.findById(id);
+        done(null, user);
+    }catch (err) {
+        done(err);
+    }
 });
 
 module.exports = passport;
