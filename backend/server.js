@@ -39,10 +39,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use('/crud', router);
 app.use((req, res, next) => {
-  console.log("🌐 Incoming request:", req.method, req.path);
-  console.log("Session ID:", req.sessionID);
-  console.log("Session data:", req.session);
-  console.log("User in middleware:", req.user);
+  console.log("Middleware Check — Session:", req.session);
+  console.log("Middleware Check — req.user:", req.user);
+  console.log("Middleware Check — req.session.passport:", req.session?.passport);
   next();
 });
 
@@ -62,6 +61,11 @@ app.get('/auth/google/callback', (req, res, next) => {
     req.logIn(user, (err) => {
       if (err) return next(err);
       req.session.save(() => {
+        if (err) {
+          console.log("Session save error:", err);
+        } else {
+          console.log("Session saved successfully");
+        }
         return res.redirect('https://playpal-frontend.vercel.app/home');
       });
     });
