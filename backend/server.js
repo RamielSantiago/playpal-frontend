@@ -25,14 +25,16 @@ app.use(session({
       collectionName: 'sessions'}),
     saveUninitialized: false,
     cookie: {
-    secure: process.env.NODE_ENV === 'development' ? false : true,
-    sameSite: process.env.NODE_ENV === 'development' ? 'lax' : 'none',
+    secure: /*process.env.NODE_ENV === 'development' ? false : */true,
+    sameSite: /*process.env.NODE_ENV === 'development' ? 'lax' : */'none',
     maxAge: 24 * 60 *60 * 1000 
   }
 }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/crud', router);
+
+app.set('trust proxy', 1);
 
 app.get('/', (req, res) => {
   res.json({ message: 'PlayPal API is running' });
