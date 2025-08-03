@@ -84,7 +84,8 @@ app.get("/auth/me", (req, res) => {
     const currUser = req.user;
     console.log("Server.js Hit /auth/me");
     console.log("Server.js req.user:", req.user);
-    console.log("Server.js req.session:", req.session);   
+    console.log("Server.js req.session:", req.session);  
+    console.log("Server.js req.session.passport.user:", req.session.passport.user);   
     if (!currUser) {
         return res.status(200).json({ user: null }); //return null for now
     }
