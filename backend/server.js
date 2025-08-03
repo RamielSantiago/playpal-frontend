@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const session = require('express-session');
+const cp = require('cookie-parser');
 const passport = require('./authentication/passport');
 const mongoose = require('mongoose');
 const router = require('./db/crudRoutes');
@@ -11,6 +12,7 @@ const app = express();
 app.set('trust proxy', 1);
 
 app.use(express.json());
+app.use(cp());
 app.use(cors({
   origin: process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://playpal-frontend.vercel.app',
   credentials: true
