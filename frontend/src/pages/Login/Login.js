@@ -12,6 +12,10 @@ function Login(){
         window.location.href = `${API_BASE_URL}/auth/google`;
     };
 
+    const loged = () => {
+        console.log(API_BASE_URL);
+    };
+
     useEffect(() => {
         const checkAuth = async () => {
             try {
@@ -62,7 +66,7 @@ function Login(){
                     Log in with your DLSU Google account to proceed with 
                     your access to PlayPal.
                     </p>
-                        <button className={`google-login-button ${loading ? 'loading' : ''}`} onClick={login} disabled={loading}>
+                        <button className={`google-login-button ${loading ? 'loading' : ''}`} onClick={loged} disabled={loading}>
                             <FaEnvelope size="1.5em" className='mailicon'/>
                             <span>{loading ? 'Checking email...' : 'Log In with DLSU Google Account'}</span>
                         </button>
