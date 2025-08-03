@@ -10,7 +10,7 @@ const app = express();
 //
 app.use(express.json());
 app.use(cors({
-  origin: process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://playpal-frontend.vercel.app/',
+  origin: process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://playpal-frontend.vercel.app',
   credentials: true
 }));
 
@@ -45,7 +45,7 @@ app.get('/auth/google',
 app.get('/auth/google/callback',
     passport.authenticate('google', {
         successRedirect: process.env.NODE_ENV === 'development' ? 'http://localhost:3000/home' : 'https://playpal-frontend.vercel.app/home',
-        failureRedirect: process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://playpal-frontend.vercel.app/'
+        failureRedirect: process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://playpal-frontend.vercel.app'
     })
 );
 
