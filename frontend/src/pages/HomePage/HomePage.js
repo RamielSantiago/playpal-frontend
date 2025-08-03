@@ -93,7 +93,7 @@ function HomePage() {
 
   return (
      <>
-    <SearchBar userFullName={user?.fullName || (user?.name?.givenName && user?.name?.familyName) ? `${user.name.givenName} ${user.name.familyName}` : 'Unknown'} />
+    <SearchBar userFullName={user?.fullName || (user?.givenName && user?.familyName) ? `${user.givenName} ${user.familyName}` : 'Unknown'} />
     <div className="content-wrapper">
         <div className="left-wrapper">
           <LeftSideBar />
