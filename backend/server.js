@@ -36,6 +36,13 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/crud', router);
+app.use((req, res, next) => {
+  console.log("🌐 Incoming request:", req.method, req.path);
+  console.log("Session ID:", req.sessionID);
+  console.log("Session data:", req.session);
+  console.log("User in middleware:", req.user);
+  next();
+});
 
 app.get('/', (req, res) => {
   res.json({ message: 'PlayPal API is running' });
@@ -52,7 +59,9 @@ app.get('/auth/google/callback', (req, res, next) => {
 
     req.logIn(user, (err) => {
       if (err) return next(err);
-      return res.redirect('https://playpal-frontend.vercel.app/home');
+      req.session.save(() => {
+        return res.redirect('https://playpal-frontend.vercel.app/home');
+      });
     });
   })(req, res, next);
 });
