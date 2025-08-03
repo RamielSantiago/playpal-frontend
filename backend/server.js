@@ -46,22 +46,9 @@ app.get('/auth/google',
 );
 
 app.get('/auth/google/callback',
-    passport.authenticate('google', /*{
+    passport.authenticate('google', {
         successRedirect: process.env.NODE_ENV === 'development' ? 'http://localhost:3000/home' : 'https://playpal-frontend.vercel.app/home',
         failureRedirect: process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://playpal-frontend.vercel.app'
-    }*/ async(err, user, info) => {
-      if (err) return next(err);
-      if (!user) {
-            console.log("No user returned from Google");
-            return res.redirect('/');
-      }
-      req.logIn(user, (err) => {
-            if (err) {
-                console.log("Login error:", err);
-                return next(err);
-            }
-            console.log("Login successful. Session:", req.session);
-        });
     }),
 );
 
