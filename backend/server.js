@@ -45,12 +45,25 @@ app.get('/auth/google',
     passport.authenticate('google', { scope: ['profile', 'email'] })
 );
 
-app.get('/auth/google/callback',
+app.get('/auth/google/callback', (req, res, next) => {
+  passport.authenticate('google', async (err, user, info) => {
+    if (err) return next(err);
+    if (!user) return res.redirect('https://playpal-frontend.vercel.app');
+
+    req.logIn(user, (err) => {
+      if (err) return next(err);
+      return res.redirect('https://playpal-frontend.vercel.app/home');
+    });
+  })(req, res, next);
+});
+
+
+/*app.get('/auth/google/callback',
     passport.authenticate('google', {
         successRedirect: process.env.NODE_ENV === 'development' ? 'http://localhost:3000/home' : 'https://playpal-frontend.vercel.app/home',
         failureRedirect: process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://playpal-frontend.vercel.app'
     }),
-);
+);*/
 
 app.get('/auth/success', (req, res) => {
     res.json({ user: req.user });
