@@ -49,7 +49,7 @@ app.get('/auth/google/callback',
     passport.authenticate('google', {
         successRedirect: process.env.NODE_ENV === 'development' ? 'http://localhost:3000/home' : 'https://playpal-frontend.vercel.app/home',
         failureRedirect: process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://playpal-frontend.vercel.app'
-    })
+    }),
 );
 
 app.get('/auth/success', (req, res) => {
@@ -64,7 +64,7 @@ app.get("/auth/me", (req, res) => {
     if (!currUser) {
         return res.status(200).json({ user: null }); //return null for now
     }
-    const isDLSUEmail = user.email.endsWith('@dlsu.edu.ph');
+    const isDLSUEmail = currUser.email.endsWith('@dlsu.edu.ph');
 
     if (!isDLSUEmail) {
         return res.status(403).json({ 
