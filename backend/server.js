@@ -38,18 +38,9 @@ app.get('/', (req, res) => {
   res.json({ message: 'PlayPal API is running' });
 });
 
-/*app.get('/auth/google',
+app.get('/auth/google',
     passport.authenticate('google', { scope: ['profile', 'email'] })
-);*/
-
-app.get('/auth/google', (req, res, next) => {
-    const callbackURL = process.env.NODE_ENV === 'development'
-        ? 'http://localhost:8080/auth/google/callback'
-        : process.env.GOOGLE_CALLBACK_URL;
-
-    console.log("📡 Sending Google OAuth request with redirect URI:", callbackURL);
-    next();
-}, passport.authenticate('google', { scope: ['profile', 'email'] }));
+);
 
 app.get('/auth/google/callback',
     passport.authenticate('google', {
