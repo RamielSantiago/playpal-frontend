@@ -25,15 +25,15 @@ passport.use(
                 const givenName = profile.name?.givenName ?? '';
                 const familyName = profile.name?.familyName ?? '';
                 const fullName = `${profile.name.givenName} ${profile.name.familyName}`;
-                const pfp = profile.photos?.[0]?.value ?? ''
+                const pfp = profile.photos?.[0]?.value ?? '';
                 user = await player.create({ 
                     email: email, 
                     fullName:fullName, 
                     givenName: givenName, 
                     familyName: familyName, 
                     pfp: pfp,
-                    bio: '',
-                    favSports: '' });
+                    bio: 'Insert your bio here',
+                    favSports: 'Your favorite sport here' });
             }
             console.log("Passport user", user);
             done(null, user);
