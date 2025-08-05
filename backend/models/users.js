@@ -25,8 +25,7 @@ const playerSchema = new mongoose.Schema({
         type: String
     },
     favSports:{
-        type: String,
-        required:true
+        type: String
     }
 }, { collection: 'players' });
 
