@@ -27,6 +27,21 @@ Content-Type: application/json
 
 ###
 
+POST http://localhost:8080/crud/updatePlayer
+Content-Type: application/json
+
+{
+    "name": "Animo Handball",
+    "newName": "Animo Basketball",
+    "sport": "Basketball",
+    "date": "11-20-2026",
+    "place": "Anywhere",
+    "members": ["one", "two", "three"],
+    "organizer": "Someone"
+}
+
+###
+
 POST http://localhost:8080/crud/join
 Content-Type: application/json
 
