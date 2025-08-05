@@ -31,7 +31,8 @@ passport.use(
                     fullName:fullName, 
                     givenName: givenName, 
                     familyName: familyName, 
-                    pfp: pfp });
+                    pfp: pfp,
+                    bio: "" });
             }
             console.log("Passport user", user);
             done(null, user);

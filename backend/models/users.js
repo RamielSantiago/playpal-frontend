@@ -20,6 +20,13 @@ const playerSchema = new mongoose.Schema({
     pfp: {
         type: String,
         required: true
+    },
+    bio: {
+        type: String
+    },
+    favSports:{
+        type: String,
+        required:true
     }
 }, { collection: 'players' });
 

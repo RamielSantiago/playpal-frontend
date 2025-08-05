@@ -51,14 +51,26 @@ const addPlayer = async (req, res) => {
 
 //Update One Player
 const updateOne = async (req, res) => {
-     const {email} = req.params;
-     const toUpdate = await player.findOneAndUpdate({_email: email}, req.body);
-
-     if(!toUpdate){
-        res.status(404).json({error: "No such user"});
-     }
-
-     res.status(200).json(toUpdate);
+    try{
+        const exists = await player.findOne({name: req.body.email});
+        if(!exists){
+            res.status(404).json("Person does not Exist");
+        } else {
+            let newBio = exists.bio;
+            let newFavs = exists.favSports
+            if(req.body.bio != null && !(req.body.bio === newBio)){
+                newBio = req.body.bio
+            } 
+            if(req.body.favSports != null && !(req.body.bio === newBio)){
+                newFavs = req.body.favSports;
+            }
+            const update = await player.findOneAndUpdate({name: req.body.name}, {$set: {bio: newBio, favSports: newFavs}});
+            res.status(200).json("Event Updated");
+        }
+       }catch(e){
+        console.log(e);
+        res.status(400).json({error: e.message});
+       }
 }
 
 //Delete One Player
@@ -85,7 +97,7 @@ const addSched = async (req, res) => {
         } else {
             const user = await game.create({name:req.body.name, description:req.body.description, sport:req.body.sport,
                                             date:req.body.date, place: req.body.place, organizerEmail: req.body.organizerEmail,
-                                            memberEmails: req.body.memberEmails});
+                                            memberEmails: req.body.memberEmails, capacity: req.body.capacity});
             }; 
             res.status(200).json("Event added");
         }
@@ -95,22 +107,39 @@ const addSched = async (req, res) => {
     }
 }
 
-//Update Event Params should be (name, newName date, place, organizer)
+//Update Event Params should be (name, newName date, place, capacity)
 const updateSched = async (req, res) => {
     try{
         const exists = await game.findOne({name: req.body.name});
-        let eventName = ""
         if(!exists){
             res.status(404).json("Event does not Exist");
         } else {
-            if(req.body.name != req.body.newName){
+            let eventName = exists.name;
+            let newDesc = exists.description;
+            let newSport = exists.sport;
+            let newPlace = exists.place;
+            let newDate = exists.date;
+            let newCapacity = exists.capacity;
+            if(req.body.name != req.body.newName && (req.body.newName != "" && req.body.newName != null)){
                 eventName = req.body.newName
-            } else{
-                eventName = req.body.name
-            }
-            const update = await game.findOneAndUpdate({name: req.body.name}, {$set: {name: eventName, description:req.body.description, sport: req.body.sport,
-                                                                            date: req.body.date, place: req.body.place, organizerEmail: req.body.organizerEmail,
-                                                                            memberEmails: req.body.memberEmails}});
+            } 
+            if(req.body.description != "" && req.body.description != null){
+                newDesc = req.body.description;
+            } 
+            if(req.body.sport != "" && req.body.sport != null){
+                newSport = req.body.sport;
+            } 
+            if(req.body.date != "" && req.body.date != null){
+                newSport = req.body.date;
+            } 
+            if(req.body.place != "" && req.body.place != null){
+                newSport = req.body.place;
+            } 
+            if(req.body.capacity != null){
+                newSport = req.body.capacity;
+            } 
+            const update = await game.findOneAndUpdate({name: req.body.name}, {$set: {name: eventName, description:newDesc, sport: newSport,
+                                                                            date: newDate, place: newPlace, capacity: newCapacity}});
             res.status(200).json("Event Updated");
         }
        }catch(e){

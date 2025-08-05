@@ -25,6 +25,10 @@ const sportSchema = new mongoose.Schema({
         type: [String],
         required: true
     },
+    capacity:{
+        type: Number,
+        required:true
+    },
     organizerEmail: {
         type: String,
         required: true
