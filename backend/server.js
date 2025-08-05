@@ -94,7 +94,9 @@ app.get("/auth/me", (req, res) => {
             fullName: currUser.fullName,
             givenName: currUser.givenName,
             familyName: currUser.familyName,
-            pfp: currUser.photos
+            pfp: currUser.photos,
+            bio: currUser.bio,
+            favSports: currUser.favSports
         },
         isDLSUEmail: true
     });
