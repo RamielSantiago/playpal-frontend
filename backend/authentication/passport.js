@@ -32,7 +32,8 @@ passport.use(
                     givenName: givenName, 
                     familyName: familyName, 
                     pfp: pfp,
-                    bio: "" });
+                    bio: "",
+                    favSports: "" });
             }
             console.log("Passport user", user);
             done(null, user);
