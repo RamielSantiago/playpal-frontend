@@ -57,7 +57,7 @@ const addPlayer = async (req, res) => {
 //Update One Player
 const updateOne = async (req, res) => {
     try{
-        const exists = await player.findOne({name: req.body.email});
+        const exists = await player.findOne({ email:req.body.email });
         if(!exists){
             return res.status(404).json("Person does not Exist");
         } else {
@@ -75,8 +75,8 @@ const updateOne = async (req, res) => {
             if(count === 0){
                 return res.status(200).json("No updates made due to no new data");
             }
-            const update = await player.findOneAndUpdate({name: req.body.name}, {$set: {bio: newBio, favSports: newFavs}});
-            return res.status(200).json("Event Updated");
+            const update = await player.findOneAndUpdate({email: req.body.email}, {$set: {bio: newBio, favSports: newFavs}});
+            return res.status(200).json("Profile Updated");
         }
        }catch(e){
         console.log(e);
