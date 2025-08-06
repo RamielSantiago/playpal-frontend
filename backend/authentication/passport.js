@@ -44,14 +44,14 @@ passport.use(
 ));
 
 passport.serializeUser((user, done) => {
-    console.log("Serialize User", user)
+    console.log("Serialize User", user);
     done(null, user._id);
 });
 
 passport.deserializeUser(async (id, done) => {
     try{
         const user = await player.findById(id);
-        console.log("Deserialize User", user)
+        console.log("Deserialize User", user);
         if (!user) {
             console.log("User not found for ID:", id);
         }
